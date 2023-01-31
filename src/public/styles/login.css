@@ -1,0 +1,9 @@
+body  { text-align: center; padding-bottom: 50px; }
+
+.wallet { margin: 50px 0 }
+
+#message { margin: 20px 0; color: var(--color-secondary); }
+#logout { border-color: var(--color-secondary); font-size: 0.6em; }
+
+.foot { margin: 50px 0; }
+.version { margin-top: 10px; color: var(--color-secondary); font-size: 0.9em; }

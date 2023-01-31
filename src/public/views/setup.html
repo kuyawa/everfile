@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EVERFILE</title>
+  <link rel="stylesheet" href="/styles/common.css">
+  <link rel="stylesheet" href="/styles/setup.css">
+</head>
+<body data-theme="dark">
+  <div class="head">
+    <!-- <div class="logo"><a href="/"><img id="logoImagex" src="/media/logo.svg" width="200px"></a></div> -->
+    <div class="logo"><svg id="logoImage" viewBox="0 0 669.53 553.29" width="163px"><use xlink:href="/media/logo.svg#main"></use></svg></div>
+    <h1 class="info">WELCOME TO EVERFILE</h2>
+    <h2 class="info">You need to setup your storage and personal drives</h2>
+  </div>
+  <div class="main">
+    <div class="action">
+      <li><img src="/media/deploy.png" width="300px"></li>
+      <li><button id="buttonDeploy" class="actionButton" onclick="onDeploy()">1. Deploy your storage</button></li>
+      <li><p id="msgDeploy" class="message">A storage contract will be deployed in FileCoin blockchain</p></li>
+    </div>
+    <div class="action">
+      <li><img src="/media/setup.png" width="300px"></li>
+      <li><button id="buttonSetup" class="actionButton disabled" onclick="onSetup()">2. Setup your drives</button></li>
+      <li><p id="msgSetup" class="message">Personal and encrypted drives will be created</p></li>
+    </div>
+    <div class="action">
+      <li><img src="/media/access.png" width="300px"></li>
+      <li><button id="buttonAccess" class="actionButton disabled" onclick="onAccess()">3. Access your files</button></li>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="rights">&copy; 2023 EVERFILE</div>
+    <div class="version">Version 1.0</div>
+  </div>
+  <script>let session = <%-JSON.stringify(session)%></script>
+  <script src="/contracts/drive-abi.js"></script>
+  <script src="/contracts/drive-bin.js"></script>
+  <script src="/scripts/web3.min.js"></script>
+  <script src="/scripts/wallet.js"></script>
+  <script src="/scripts/common.js"></script>
+  <script src="/scripts/contract.js"></script>
+  <script src="/scripts/setup.js"></script>
+</body>
+</html>

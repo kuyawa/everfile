@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EVERFILE</title>
+  <link rel="stylesheet" href="/styles/common.css">
+  <link rel="stylesheet" href="/styles/drive.css">
+</head>
+<body data-theme="dark">
+  <aside class="listDrives">
+    <div class="logo"><a href="/"><img src="/media/logo-all.svg" width="100px"></a></div>
+    <div class="drives">
+      <h3 class="optTitle">My drives</h3>
+      <ul class="list">
+        <% if(Object.keys(session.drives).length>0) { %>
+          <% for(var key in session.drives){ let item = session.drives[key] %>
+            <li class="drive" data-id="<%=item.driveid%>"><a class="link" href="/drive/<%=item.name%>"><%=utils.title(item.name)%></a></li>
+          <% } %>
+        <% } else { %>
+            <li class="drive"><a class="link" href="/drive">Drives not found</a></li>
+        <% } %>
+      </ul>
+    </div>
+    <div class="foot">
+      <div class="rights">&copy; 2023 EVERFILE</div>
+      <div class="version">Version 1.0</div>
+    </div>
+  </aside>
+  <content>
+    <h1 class="title" id="driveName"><%=utils.title(session.driveName)%></h1>
+    <div class="actions">
+      <div class="dir">
+        <% if(session.test) { %>
+        <button onclick="onParentFolder()">&larr;</button> <label class="path" id="path">/root</label> 
+        <% } else { %>
+        <button onclick="onParentFolder()">&larr;</button> <label class="path" id="path">/root</label> <button class="newFolder" onclick="toggleFolderForm()">New Folder</button>
+        <span id="folderForm">
+          <input type="text" id="folderName" name="labelFolder" placeholder="Enter folder name..." onkeydown="onFormKey(event)">
+          <button class="newFolder" onclick="createFolder()">Create</button>
+        </span>
+        <% } %>
+      </div>
+      <% if(!session.test) { %>
+      <div class="tools"><button onclick="tabUpload()">Upload</button> <button onclick="onRename()">Rename</button> <button class="warn" onclick="onDelete()">Delete</button></div>
+      <% } %>
+    </div>
+    <table id="files">
+      <thead>
+        <tr><th onclick="sortTable(0,1)">Name</th><th onclick="sortTable(1)">CID</th><th onclick="sortTable(2,2)">Size</th><th onclick="sortTable(3)">Type</th><th onclick="sortTable(4)">Date</th></tr>
+      </thead>
+      <tbody>
+        <% if(Object.keys(session.dir.folders).length>0) { %>
+          <% for(var key in session.dir.folders){ let item = session.dir.folders[key] %>
+            <tr data-id="<%=item.folderid%>"><td class="fold" data-value="_<%=item.name%>"><%=item.name%></td><td></td><td></td><td></td><td></td></tr>
+          <% } %>
+        <% } %>
+        <% if(Object.keys(session.dir.files).length>0) { %>
+          <% for(var key in session.dir.files){ let item = session.dir.files[key] %>
+            <tr data-id="<%=item.fileid%>"><td class="file" data-value="<%=item.name%>"><%=item.name%></td><td><%=item.cid.substr(0,20)+'...'%></td><td data-value="<%=item.size%>"><%=utils.fileSize(item.size)%></td><td><%=item.mime%></td><td><%=utils.fileDate(item.created)%></td></tr>
+          <% } %>
+        <% } %>
+      </tbody>
+    </table>
+  </content>
+  <aside class="panels">
+    <div id="preview">
+      <h1>Preview</h1>
+      <img id="previewImage" src="/media/preview.png">
+      <div class="form">
+        <label id="labelName" class="labelName">No file selected</label>
+        <label id="labelIpfs" class="labelIpfs ellipsis">&nbsp;</label>
+        <label id="labelSize" class="labelSize">&nbsp;</label>
+        <label id="labelType" class="labelType">&nbsp;</label>
+        <label id="labelDate" class="labelDate">&nbsp;</label>
+      </div>
+    </div>
+    <div id="upload">
+      <h1>Upload</h1>
+      <div class="uploader">
+        <img id="uploadImage" class="formPic" src="/media/selectfile.png" width="200px" height="200px" />
+        <input type="file" name="uploadFile" id="uploadFile" class="formFile" onchange="onImagePreview(event)" />
+      </div>
+      <div class="form">
+        <label id="message"  class="message dim">Select your file to upload</label>
+        <label id="fileName" class="labelName">filename.jpg</label>
+        <label id="fileSize" class="labelSize">123,456,789 Mb</label>
+        <label id="fileType" class="labelType">image/jpeg</label>
+        <button id="buttonUpload" class="actionButton" onclick="onUpload()">UPLOAD</button>
+      </div>
+    </div>
+  </aside>
+  <script>let session = <%-JSON.stringify(session)%></script>
+  <script src="/contracts/drive-abi.js"></script>
+  <script src="/contracts/drive-bin.js"></script>
+  <script src="/scripts/web3.min.js"></script>
+  <script src="/scripts/wallet.js"></script>
+  <script src="/scripts/common.js"></script>
+  <script src="/scripts/contract.js"></script>
+  <script src="/scripts/drive.js"></script>
+</body>
+</html>

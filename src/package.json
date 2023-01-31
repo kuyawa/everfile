@@ -1,0 +1,16 @@
+{
+  "name": "EVERFILE",
+  "version": "1.0.0",
+  "description": "FileCoin Cloud Drive",
+  "author": "Kuyawa",
+  "license": "UNLICENSED",
+  "main": "index.js",
+  "dependencies": {
+    "@lighthouse-web3/sdk": "^0.1.10",
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.8",
+    "express-fileupload": "^1.4.0",
+    "pg": "^8.8.0",
+    "web3": "^1.8.1"
+  }
+}

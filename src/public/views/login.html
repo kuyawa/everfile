@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EVERFILE</title>
+  <link rel="stylesheet" href="/styles/common.css">
+  <link rel="stylesheet" href="/styles/login.css">
+</head>
+<body data-theme="dark">
+  <section class="main">
+    <div class="action">
+      <img class="wallet-image" src="/media/metamask.png" width="500px">
+      <h1>CONNECT YOUR WALLET</h1>
+      <h2 class="textDim">You need to connect your Metamask wallet before accessing your drive</h2>
+      <div class="actions">
+        <button id="action" class="actionButton" onclick="onConnect()">CONNECT</button>
+        <div id="message" class="message">Select FileCoin Hyperspace Testnet when connecting to EverFile</div>
+        <button id="logout" class="miniButton" onclick="onLogout()">LOGOUT</button>
+      </div>
+    </div>
+    <div class="wallet">
+      <img class="walletLogo" src="/media/metamask-fox.svg" width="100px" height="100px">
+      <h1 class="walletTitle">We use <b>Metamask</b> as our preferred crypto wallet</h1>
+      <p class="textDim">In order to access your drive you will need to install <a id="getWallet" href="https://metamask.io/download" target="_blank">Metamask</a> in your browser or mobile phone</p>
+      <p class="textDim">Once installed, <a href="https://docs.zondax.ch/fevm/filecoin-solidity/deploy-it#setting-up-your-wallet" target="_blank">follow instructions</a> to add WALLABY TESTNET network to Metamask and go to the <a href="https://wallaby.yoga/#faucet" target="_blank">faucet</a> to get some test coins</p>
+    </div>
+  </section>
+  <div class="foot">
+    <div class="rights">&copy; 2023 EVERFILE</div>
+    <div class="version">Version 1.0</div>
+  </div>
+  <script>let session = <%-JSON.stringify(session)%></script>
+  <script src="/scripts/web3.min.js"></script>
+  <script src="/scripts/wallet.js"></script>
+  <script src="/scripts/common.js"></script>
+  <script src="/scripts/login.js"></script>
+</body>
+</html>
