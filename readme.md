@@ -21,3 +21,5 @@ EverFile was built using the following tools:
 - HTML, CSS, JS for web app UI
 
 Visit us at [https://everfile.cloud](https://everfile.cloud)
+
+* Hyperspace Testnet while under construction
