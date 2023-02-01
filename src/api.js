@@ -10,21 +10,11 @@ let config = {
   prvkey: process.env.SECRET
 }
 
-
 async function newUser(account){
-  //let drive1 = utils.randomAddress()
-  //let drive2 = utils.randomAddress()
-  //TODO: create storage contract
-  //      add drive1 and drive2 to contract
-  //      add root1  and root2  to contract
-  //let contract = '0xdrive1'
   let rec = {account}
   console.log('New user', rec)
   res = await db.newUser(rec)
-  //res = await db.newDrive({name:'personal' ,driveid:drive1,encrypt:false})
-  //res = await db.newDrive({name:'encrypted',driveid:drive2,encrypt:true })
 }
-
 
 async function deploy(arg=[]){
   try {

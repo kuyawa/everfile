@@ -114,7 +114,7 @@ class Wallet {
   }
 
   async getGasPrice() {
-      //let gas = await web3.eth.getGasPrice();
+      let gas = await web3.eth.getGasPrice();
       //let gas = res.result || 10000000000;
       console.log('Average gas price:', gas, parseInt(gas,16));
       return gas;

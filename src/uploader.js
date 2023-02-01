@@ -1,8 +1,6 @@
 let WEB3 = require('web3')
 let web3 = new WEB3(process.env.RPCURL)
 let sdk  = require('@lighthouse-web3/sdk')
-//let pub  = process.env.WALLET
-//let key  = process.env.SECRET
 let apk  = process.env.LIGHTHOUSE
 
 async function upload(path){

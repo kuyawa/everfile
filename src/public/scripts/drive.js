@@ -171,7 +171,6 @@ async function tabPreview(itemid){
 }
 
 function insertFolder(folder){
-  //console.log('Insert', folder)
   let table = $('files')
   let tbody = table.tBodies[0]
   let row   = tbody.insertRow()
@@ -180,7 +179,6 @@ function insertFolder(folder){
 }
 
 function insertFile(file){
-  //console.log('Insert', file)
   let table = $('files')
   let tbody = table.tBodies[0]
   let row   = tbody.insertRow()
@@ -276,7 +274,6 @@ function onImagePreview(evt){
   if(previewMime.indexOf(file.type)>=0){
     let reader = new FileReader()
     reader.onload = function(e){
-      //console.log(e.target.result.split(':')[1].split(';')[0])
       $('uploadImage').src = e.target.result
     }
     reader.readAsDataURL(file)
@@ -342,12 +339,6 @@ async function uploadEncrypted(cid){
       showUpload()
       return null
     }
-    //let cid  = await encrypt(file) // sign and upload encrypted
-    //if(!cid){
-    //  showError('Error encrypting file')
-    //  showUpload()
-    //  return null
-    //}
     var data = new FormData()
     data.append('owner',    session.account)
     data.append('contract', session.storage)
@@ -401,7 +392,6 @@ async function signMessage(){
 }
 
 async function onEncrypt(evt){
-  //console.log('evt', evt)
   console.log('Uploading...')
   showMessage('Uploading, wait a moment...')
   showUpload('WAIT', true)
@@ -411,7 +401,6 @@ async function onEncrypt(evt){
   console.log('inf', inf)
   let cid = inf.data.Hash
   console.log('cid', cid)
-  //return cid
   if(!cid){
     showError('Error encrypting file')
     showUpload()
@@ -454,11 +443,11 @@ async function downloadFile(url, filename){
 }
 
 async function onRename(){
-  //
+  // TODO
 }
 
 async function onDelete(){
-  //
+  // TODO
 }
 
 async function start(){

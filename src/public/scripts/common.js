@@ -37,12 +37,6 @@ function copyToClipboard(text) {
   });
 }
 
-//async function randomAddress() {
-//    let buf = await crypto.randomBytes(20)
-//    let adr = '0x'+buf.toString('hex')
-//    return adr
-//}
-
 function randomAddress() {
   let buf = crypto.getRandomValues(new Uint8Array(20));
   let adr = '0x'+Array.from(buf).map(x=>{return x.toString(16).padStart(2,'0')}).join('');
@@ -67,8 +61,6 @@ function fileSize(size) {
 function fileDate(date) {
   return new Date(date).toJSON().replace('T', ' ').substr(0,19)
 }
-
-
 
 function main(){
   console.log('EVERFILE 1.0')

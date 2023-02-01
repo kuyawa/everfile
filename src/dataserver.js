@@ -22,7 +22,6 @@ class DataServer {
   async insert(sql, params, key) {
     var res, recid, data = null
     try {
-      //dbc = await dbp.connect()
       if(!this.dbc){ await this.connect() }
       res = await this.dbc.query(sql, params)
       if(res.rowCount>0) { 

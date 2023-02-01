@@ -1,11 +1,11 @@
-const fetch    = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch    = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args))
 const fs       = require('fs')
 const path     = require('path')
-const crypto   = require('crypto');
-const api      = require('./api.js');
-const db       = require('./database.js'); 
-const uploader = require('./uploader.js'); 
-const utils    = require('./utils.js'); 
+const crypto   = require('crypto')
+const api      = require('./api.js')
+const db       = require('./database.js')
+const uploader = require('./uploader.js')
+const utils    = require('./utils.js')
 
 
 function hit(req, ...args){ 
@@ -37,7 +37,6 @@ async function setup(req, res){
 }
 
 async function drive(req, res){
-  //hit(req)
   let session = utils.getSession(req)
   if(!session.account){ return res.redirect('/login') }
   let user = await db.getUserByAccount(session.account)
@@ -70,8 +69,6 @@ async function drive(req, res){
   for (var i = 0; i < files.length; i++) {
     mapFiles[files[i].fileid] = files[i]
   }
-  //console.log({mapFolders})
-  //console.log({mapFiles})
   let folder  = {name:'root', folderid:driveid, parentid:null}
   session.driveName = drive
   session.drives = mapDrives
@@ -199,7 +196,6 @@ async function apiNewFile(req, res){
   let folderid = req.body.folderid
   let fileid   = req.body.fileid
   let encrypt  = req.body.encrypt || false
-
   if(!files){
     console.error('No files uploaded')
     res.send(JSON.stringify({error:'No files uploaded'}))
@@ -215,7 +211,6 @@ async function apiNewFile(req, res){
     res.send(JSON.stringify({error:'File name not found'}))
     return
   }
-
   //let data = files.file.data
   let date = new Date()
   let name = files.file.name
@@ -230,7 +225,6 @@ async function apiNewFile(req, res){
       return res.send(JSON.stringify({error:'Error uploading: '+(cid?.error||'Unknown')}))
     }
     let rec = {owner, contract, driveid, folderid, fileid, name, cid, mime, size}
-    //console.log(rec)
     // move to /public/uploads
     let dst = path.join(__dirname,'/public/uploads/'+fileid)
     // preview mime types
@@ -287,7 +281,8 @@ async function apiEncrypt(req, res){
   } catch(ex) {
     console.error(ex)
     return res.send(JSON.stringify({error:'Error encrypting: '+ex.message}))
-  }}
+  }
+}
 
 async function apiDir(req, res){
   hit(req)

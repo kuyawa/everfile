@@ -8,7 +8,7 @@ const router     = require('./router.js')
 
 async function main(){
   console.warn(new Date(), 'App is running')
-  let tmp = path.join(__dirname,'/public/uploads/tmp') // temp dir to upload files
+  let tmp = path.join(__dirname,'/public/uploads/tmp')
   const app = express()
   app.use(express.static(path.join(__dirname, 'public')))
   app.use(uploader({useTempFiles:true, tempFileDir:tmp}))
@@ -26,13 +26,9 @@ async function main(){
   app.get('/drive',               router.drive)
   app.get('/drive/:id',           router.drive)
   app.get('/test',                router.test)
-  app.get('/faq',                 router.faq)
-  app.get('/terms',               router.terms)
-  app.get('/privacy',             router.privacy)
-  app.get('/support',             router.support)
   app.get('/api/test',            router.apiTest)
-  app.get('/api/storage/:id',     router.apiStorage)      // creates a new storage contract for owner id
-  app.post('/api/setup',          router.apiSetup)        // creates new drives for contract id
+  app.get('/api/storage/:id',     router.apiStorage)
+  app.post('/api/setup',          router.apiSetup)
   app.post('/api/newfolder',      router.apiNewFolder)
   app.post('/api/newfile',        router.apiNewFile)
   app.post('/api/encrypt',        router.apiEncrypt)
