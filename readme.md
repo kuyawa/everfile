@@ -22,4 +22,4 @@ EverFile was built using the following tools:
 
 Visit us at [https://everfile.cloud](https://everfile.cloud)
 
-* Hyperspace Testnet while under construction
+\* Hyperspace Testnet while under construction
