@@ -8,7 +8,7 @@
 
 EverFile allows you to save files permanently in FileCoin blockchain using a contract in FVM that saves the tree structure of all CIDs of files uploaded to IFPS so you can have an ordered view of your drives.
 
-From there you can preview and download your files, also encrypt and decrypt in your own encrypted drive so nobody can see what you are stoing in EverFile, not even us!
+From there you can preview and download your files, also encrypt and decrypt in your own secure drive so nobody can see what you are storing in EverFile, not even us!
 
 ## Tools
 
