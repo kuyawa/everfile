@@ -32,6 +32,7 @@ async function encrypt(pkey, skey, filePath){
   console.log('inf', inf)
   let cid = inf.data.Hash
   console.log('cid', cid)
+  return cid
 }
 
 async function decrypt(cid, filePath){
@@ -41,8 +42,9 @@ async function decrypt(cid, filePath){
   //console.log('inf', inf)
   let fek = inf.data.key
   console.log('fek', fek)
-  let dec = await sdk.decryptFile(cid, fek)
-  fs.createWriteStream(filePath).write(Buffer.from(dec))
+  let buf = await sdk.decryptFile(cid, fek)
+  //fs.createWriteStream(filePath).write(Buffer.from(buf))
+  return buf
 }
 
 // adr must be an array of addresses requesting access
@@ -52,6 +54,10 @@ async function share(cid, adr){
   let sgn = await signMessage(pub, key)
   let res = await sdk.shareFile(pub, adr, cid, sgn)
   console.log(res) // https://files.lighthouse.storage/viewFile/QmQphYtB71bJuwpX1aMWxyV6Qk1Gj8s5E3gfe3Fjqnpem8
+  if(data.status=='Success'){
+    return 'https://files.lighthouse.storage/viewFile/'+cid
+  }
+  return null
 }
 
 module.exports = {

@@ -240,7 +240,7 @@ async function apiNewFile(req, res){
     else if(mime=='image/webp'){ dst+='.webp' }
     else if(mime=='image/svg+xml'){ dst+='.svg' }
     if(encrypt){
-      fs.unlink(temp) // delete <<<
+      fs.unlink(temp)
     } else {
       let ok1 = await req.files.file.mv(dst)
     }
@@ -258,6 +258,36 @@ async function apiNewFile(req, res){
     return res.send(JSON.stringify({error:'Error uploading: '+ex.message}))
   }
 }
+
+async function apiEncrypt(req, res){ 
+  hit(req)
+  let owner    = req.body.owner
+  let contract = req.body.contract
+  let driveid  = req.body.driveid
+  let folderid = req.body.folderid
+  let fileid   = req.body.fileid
+  let name     = req.body.filename
+  let size     = req.body.filesize
+  let mime     = req.body.filemime
+  let cid      = req.body.filecid
+  let date     = new Date()
+
+  try {
+    let rec = {owner, contract, driveid, folderid, fileid, name, cid, mime, size}
+    console.log(rec)
+    // save fileId and cid to db in contract/drive/parent folder
+    let ok2 = await db.newFile(rec)
+    console.log('OK2',ok2)
+    let recid = ok2?.id || 0
+    // upload to contract, no wait
+    let txid = await api.newFile(contract, fileid, folderid, name, cid, mime, size)
+    console.log('OK3',txid)
+    // done
+    res.end(JSON.stringify({success:true, recid, owner, contract, driveid, folderid, fileid, name, cid, mime, size, date, txid}))
+  } catch(ex) {
+    console.error(ex)
+    return res.send(JSON.stringify({error:'Error encrypting: '+ex.message}))
+  }}
 
 async function apiDir(req, res){
   hit(req)
@@ -327,6 +357,7 @@ module.exports = {
   apiSetup,
   apiNewFolder,
   apiNewFile,
+  apiEncrypt,
   apiDir,
   apiCatchAll,
   logsView,

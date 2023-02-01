@@ -35,6 +35,7 @@ async function main(){
   app.post('/api/setup',          router.apiSetup)        // creates new drives for contract id
   app.post('/api/newfolder',      router.apiNewFolder)
   app.post('/api/newfile',        router.apiNewFile)
+  app.post('/api/encrypt',        router.apiEncrypt)
   app.get('/api/dir/:folder',     router.apiDir)
   app.get('/api/*',               router.apiCatchAll)
   app.get('/logs',                router.logsView)

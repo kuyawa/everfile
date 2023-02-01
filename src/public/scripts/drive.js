@@ -137,6 +137,7 @@ async function tabPreview(itemid){
   $('upload').style.display  = 'none'
   $('preview').style.display = 'block'
   let file = session.dir.files[itemid]
+  session.selected = file
   console.log('file', file)
   $('labelName').innerHTML = file.name
   $('labelIpfs').innerHTML = `<a href="https://gateway.lighthouse.storage/ipfs/${file.cid}" target="_blank">${file.cid.substr(0,20)+'...'}</a>`
@@ -144,7 +145,17 @@ async function tabPreview(itemid){
   $('labelType').innerHTML = file.mime
   $('labelDate').innerHTML = fileDate(file.date)
   if(previewMime.indexOf(file.mime)>=0){
-    $('previewImage').src = `/uploads/${file.fileid}.${fileExt(file.mime)}`
+    if(session.drive.encrypt){
+      if(file.url){
+        console.log('cached', file.cid)
+        $('previewImage').src = file.url
+      } else {
+        $('previewImage').src = '/media/encrypted.png'
+        $('decrypt').classList.remove('hidden')
+      }
+    } else {
+      $('previewImage').src = `/uploads/${file.fileid}.${fileExt(file.mime)}`
+    }
   } else {
     $('previewImage').src = '/media/nopreview.png'
   }
@@ -263,6 +274,9 @@ function onImagePreview(evt){
   } else {
     $('uploadImage').src = '/media/nopreview.png'
   }
+  if(session.drive.encrypt){
+    onEncrypt(evt)
+  }
 }
 
 async function onUpload(){
@@ -283,6 +297,7 @@ async function onUpload(){
     data.append('driveid',  session.driveid)
     data.append('folderid', session.folderid||session.driveid)
     data.append('fileid',   fileid)
+    data.append('encrypt',  session.drive.encrypt || false)
     data.append('file', file)
     let res = await fetch('/api/newfile', {method: "POST", body: data})
     let inf = await res.json()
@@ -306,41 +321,110 @@ async function onUpload(){
   }
 }
 
+async function uploadEncrypted(cid){
+  console.log('Uploading...')
+  showMessage('Uploading, wait a moment...')
+  showUpload('WAIT', true)
+  try {
+    let fileid = randomAddress()
+    let file = $('uploadFile').files[0]
+    if(!file){
+      showError('No file selected')
+      showUpload()
+      return null
+    }
+    //let cid  = await encrypt(file) // sign and upload encrypted
+    //if(!cid){
+    //  showError('Error encrypting file')
+    //  showUpload()
+    //  return null
+    //}
+    var data = new FormData()
+    data.append('owner',    session.account)
+    data.append('contract', session.storage)
+    data.append('driveid',  session.driveid)
+    data.append('folderid', session.folderid||session.driveid)
+    data.append('fileid',   fileid)
+    data.append('filename', file.name)
+    data.append('filesize', file.size)
+    data.append('filemime', file.type)
+    data.append('filecid',  cid)
+    data.append('encrypt',  true)
+    let res = await fetch('/api/encrypt', {method: "POST", body: data})
+    let inf = await res.json()
+    console.log('Uploaded', inf)
+    if(!inf || inf.error){
+      showError('File could not be uploaded<br>'+(inf?.error||'Unknown'))
+      showUpload()
+      return null
+    }
+    let item = {recid:0, folderid:inf.folderid, fileid:inf.fileid, name:inf.name, cid:inf.cid, size:inf.size, mime:inf.mime, date:inf.date}
+    session.dir.files[fileid] = item
+    insertFile(item)
+    sortTable()
+    selectFile(fileid)
+    showMessage('File uploaded')
+    showUpload('DONE',true)
+  } catch(ex) {
+    console.error(ex)
+    showError('Error encrypting file<br>'+ex.message)
+    showUpload()
+  }
+}
+
 function progress(data) {
   let pct = parseInt(100 - (data?.total / data?.uploaded))
   console.log(pct, '%');
 }
 
 async function signMessage(){
+  console.log('Signing message for', Metamask.myaccount)
   let pub = Metamask.myaccount
-  let res = await sdk.getAuthMessage(pub)
+  let res = await lighthouse.getAuthMessage(pub)
+  console.log('res', res)
   let msg = res.data.message
-  let sgn = await web3.eth.accounts.sign(msg)
-  let hsh = sgn.signature
   console.log('msg', msg)
-  console.log('hsh', hsh)
-  return {pubkey:pub, message:hsh}
+  //let sgn = await web3.eth.accounts.sign(msg)
+  let sgn = await web3.eth.personal.sign(msg, pub)
+  //let sgn = await web3.eth.sign(msg)
+  console.log('sgn', sgn)
+  return {pubkey:pub, message:sgn}
 }
 
-async function encrypt(evt, filePath){
+async function onEncrypt(evt){
+  //console.log('evt', evt)
+  console.log('Uploading...')
+  showMessage('Uploading, wait a moment...')
+  showUpload('WAIT', true)
+  evt.persist = (...args)=>{ console.log('Persist', args) } // hack to make lighthouse work, this is not react
   let sgn = await signMessage()
-  let inf = await sdk.uploadEncrypted(evt, sgn.pubkey, session.apikey, sgn.message, progress)
+  let inf = await lighthouse.uploadEncrypted(evt, sgn.pubkey, session.apikey, sgn.message, progress)
   console.log('inf', inf)
   let cid = inf.data.Hash
   console.log('cid', cid)
+  //return cid
+  if(!cid){
+    showError('Error encrypting file')
+    showUpload()
+    return
+  }
+  uploadEncrypted(cid)
 }
 
-async function decrypt(cid, filePath){
-  if(!filePath){ filePath = cid }
-  let sgn = await signMessage(pub, key)
-  let inf = await sdk.fetchEncryptionKey(cid, pub, sgn)
-  //console.log('inf', inf)
+async function onDecrypt(){
+  let cid = session.selected.cid
+  console.log('cid', cid)
+  let sgn = await signMessage()
+  let inf = await lighthouse.fetchEncryptionKey(cid, sgn.pubkey, sgn.message)
+  console.log('inf', inf)
   let fek = inf.data.key
   console.log('fek', fek)
-  let dec = await sdk.decryptFile(cid, fek)
-  //fs.createWriteStream(filePath).write(Buffer.from(dec))
+  let dec = await lighthouse.decryptFile(cid, fek)
+  console.log('dec', dec)
   let url = URL.createObjectURL(dec)
   console.log('url', url)
+  $('previewImage').src = url
+  session.dir.files[session.selected.fileid].url = url
 }
 
 async function onRename(){

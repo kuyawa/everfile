@@ -2,6 +2,7 @@
 html, body { height: 100%; }
 body { display: flex; flex-direction: row; justify-content: space-between; height: 100%; }
 
+.hidden { display: none; }
 .ellipsis { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .listDrives { width: 250px; display: flex; flex-direction: column; justify-content: space-between; padding: 30px; border-right: 1px solid var(--border-primary); background-color: var(--back-secondary); text-align: center; }
