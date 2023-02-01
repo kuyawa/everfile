@@ -182,7 +182,7 @@ function insertFile(file){
   let table = $('files')
   let tbody = table.tBodies[0]
   let row   = tbody.insertRow()
-  row.innerHTML = `<tr data-id="${file.fileid}"><td class="file" data-value="${file.name}">${file.name}</td><td>${file.cid.substr(0,20)+'...'}</td><td>${fileSize(file.size)}</td><td>${file.mime}</td><td>${fileDate(file.date)}</td></tr>`
+  row.innerHTML = `<tr data-id="${file.fileid}"><td class="file" data-value="${file.name}">${file.name}</td><td>${file.cid.substr(0,20)+'...'}</td><td data-value="${file.size}">${fileSize(file.size)}</td><td>${file.mime}</td><td>${fileDate(file.date)}</td></tr>`
   row.dataset.id = file.fileid
 }
 
