@@ -119,25 +119,25 @@ async function test(req, res){
 async function faq(req, res){ 
   hit(req)
   let session = utils.getSession(req)
-  res.render('faq', {session})
+  res.render('notready', {session})
 }
 
 async function terms(req, res){ 
   hit(req)
   let session = utils.getSession(req)
-  res.render('terms', {session})
+  res.render('notready', {session})
 }
 
 async function privacy(req, res){ 
   hit(req)
   let session = utils.getSession(req)
-  res.render('privacy', {session})
+  res.render('notready', {session})
 }
 
 async function support(req, res){ 
   hit(req)
   let session = utils.getSession(req)
-  res.render('support', {session})
+  res.render('notready', {session})
 }
 
 

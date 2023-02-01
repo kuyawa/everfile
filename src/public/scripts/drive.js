@@ -144,20 +144,29 @@ async function tabPreview(itemid){
   $('labelSize').innerHTML = fileSize(file.size)
   $('labelType').innerHTML = file.mime
   $('labelDate').innerHTML = fileDate(file.date)
+  $('decrypt').classList.add('hidden')
+  $('download').classList.add('hidden')
   if(previewMime.indexOf(file.mime)>=0){
     if(session.drive.encrypt){
+      $('labelIpfs').innerHTML = file.cid.substr(0,20)+'...'
       if(file.url){
         console.log('cached', file.cid)
         $('previewImage').src = file.url
       } else {
         $('previewImage').src = '/media/encrypted.png'
         $('decrypt').classList.remove('hidden')
+        $('download').classList.remove('hidden')
       }
     } else {
       $('previewImage').src = `/uploads/${file.fileid}.${fileExt(file.mime)}`
     }
   } else {
     $('previewImage').src = '/media/nopreview.png'
+    if(session.drive.encrypt){
+      $('labelIpfs').innerHTML = file.cid.substr(0,20)+'...'
+      $('decrypt').classList.add('hidden')
+      $('download').classList.remove('hidden')
+    }
   }
 }
 
@@ -411,7 +420,7 @@ async function onEncrypt(evt){
   uploadEncrypted(cid)
 }
 
-async function onDecrypt(){
+async function onDecrypt(download=false){
   let cid = session.selected.cid
   console.log('cid', cid)
   let sgn = await signMessage()
@@ -423,8 +432,25 @@ async function onDecrypt(){
   console.log('dec', dec)
   let url = URL.createObjectURL(dec)
   console.log('url', url)
-  $('previewImage').src = url
-  session.dir.files[session.selected.fileid].url = url
+  if(download){
+    downloadFile(url, session.dir.files[session.selected.fileid].name)
+  } else {
+    $('previewImage').src = url
+    session.dir.files[session.selected.fileid].url = url
+  }
+}
+
+async function downloadFile(url, filename){
+  var a = document.createElement("a")
+  a.style = "display: none"
+  document.body.appendChild(a)
+  a.href = url
+  a.download = filename
+  a.click()
+  setTimeout(() => {
+      URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+  }, 100)
 }
 
 async function onRename(){
