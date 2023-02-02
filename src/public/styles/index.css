@@ -20,3 +20,12 @@ body { text-align: center; background: var(--back-radial); overscroll-behavior: 
 .title { font-size: 1.4em; font-weight: normal; }
 h1.mainTitle { font-size: 2em }
 h2.mainTitle { font-size: 1.2em }
+
+@media screen and (max-width: 720px) {
+  .wrap { width: 100%; }
+  .imgHero { width: 80%; }
+  h1.mainTitle { font-size: 1.6em }
+  h2.mainTitle { font-size: 1.0em }
+  .intro { flex-direction: column; }
+  .panel { margin-top: 50px; }
+}

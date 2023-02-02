@@ -1,7 +1,7 @@
 {
   "name": "EVERFILE",
   "version": "1.0.0",
-  "description": "FileCoin Cloud Drive",
+  "description": "Filecoin Cloud Drive",
   "author": "Kuyawa",
   "license": "UNLICENSED",
   "main": "index.js",

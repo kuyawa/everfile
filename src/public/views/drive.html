@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>EVERFILE</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=1, shrink-to-fit=no">
+  <meta name="application-name" content="EVERFILE">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#202428">
+  <link rel="icon" href="/favicons/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicons/appletouch.png" sizes="180x180">
+  <link rel="shortcut icon"    href="/favicons/appletouch.png" sizes="180x180">
   <link rel="stylesheet" href="/styles/common.css">
   <link rel="stylesheet" href="/styles/drive.css">
 </head>
@@ -27,7 +34,7 @@
       <div class="version">Version 1.0</div>
     </div>
   </aside>
-  <content>
+  <content class="main">
     <h1 class="title" id="driveName"><%=utils.title(session.driveName)%></h1>
     <div class="actions">
       <div class="dir">
@@ -42,22 +49,37 @@
         <% } %>
       </div>
       <% if(!session.test) { %>
-      <div class="tools"><button onclick="tabUpload()">Upload</button> <button onclick="onRename()">Rename</button> <button class="warn" onclick="onDelete()">Delete</button></div>
+        <div class="tools"><button onclick="tabUpload()">Upload File</button></div> 
+        <!--button onclick="onRename()">Rename</button> <button class="warn" onclick="onDelete()">Delete</button-->
       <% } %>
     </div>
     <table id="files">
       <thead>
-        <tr><th onclick="sortTable(0,1)">Name</th><th onclick="sortTable(1)">CID</th><th onclick="sortTable(2,2)">Size</th><th onclick="sortTable(3)">Type</th><th onclick="sortTable(4)">Date</th></tr>
+        <tr>
+          <th onclick="sortTable(0,1)">Name</th>
+          <th onclick="sortTable(1)">CID</th>
+          <th onclick="sortTable(2,2)">Size</th>
+          <th onclick="sortTable(3)">Type</th>
+          <th onclick="sortTable(4)">Date</th>
+        </tr>
       </thead>
       <tbody>
         <% if(Object.keys(session.dir.folders).length>0) { %>
           <% for(var key in session.dir.folders){ let item = session.dir.folders[key] %>
-            <tr data-id="<%=item.folderid%>"><td class="fold" data-value="_<%=item.name%>"><%=item.name%></td><td></td><td></td><td></td><td></td></tr>
+            <tr data-id="<%=item.folderid%>">
+              <td class="fold" data-value="_<%=item.name%>"><%=item.name%></td><td></td><td></td><td></td><td></td>
+            </tr>
           <% } %>
         <% } %>
         <% if(Object.keys(session.dir.files).length>0) { %>
           <% for(var key in session.dir.files){ let item = session.dir.files[key] %>
-            <tr data-id="<%=item.fileid%>"><td class="file" data-value="<%=item.name%>"><%=item.name%></td><td><%=item.cid.substr(0,20)+'...'%></td><td data-value="<%=item.size%>"><%=utils.fileSize(item.size)%></td><td><%=item.mime%></td><td><%=utils.fileDate(item.created)%></td></tr>
+            <tr data-id="<%=item.fileid%>">
+              <td class="file" data-value="<%=item.name%>"><%=item.name%></td>
+              <td><%=item.cid.substr(0,20)+'...'%></td>
+              <td data-value="<%=item.size%>"><%=utils.fileSize(item.size)%></td>
+              <td><%=item.mime%></td>
+              <td><%=utils.fileDate(item.created)%></td>
+            </tr>
           <% } %>
         <% } %>
       </tbody>

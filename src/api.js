@@ -49,11 +49,13 @@ async function sendMethod(adr, met, arg=[]){
     //let gax = await ctr.methods[met](...arg).estimateGas()
     //console.log('GAX', gax)
     let dat = await ctr.methods[met](...arg).encodeABI()
+    console.log('DAT', dat)
     let txn = { from: config.wallet, to: adr, data: dat, gas: gas.gasLimit, maxPriorityFeePerGas: gas.maxFee }
+    console.log('TXN', txn)
     let sgn = await web3.eth.accounts.signTransaction(txn, config.prvkey);
-    //console.log('SGN', sgn)
+    console.log('SGN', sgn)
     let txi = sgn?.transactionHash
-    console.log('TX', txi)
+    console.log('TXI', txi)
     let res = web3.eth.sendSignedTransaction(sgn.rawTransaction); // NOWAIT
     return txi;
   } catch(ex){

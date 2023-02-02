@@ -1,12 +1,12 @@
 # EVERFILE
 
-## Store your files permanently in FileCoin blockchain
+## Store your files permanently in Filecoin blockchain
 
 ![WEBSHOT](media/webshot1.jpg)
 
 ## Concept
 
-EverFile allows you to save files permanently in FileCoin blockchain using a contract in FVM that saves the tree structure of all CIDs of files uploaded to IFPS so you can have an ordered view of your drives.
+EverFile allows you to save files permanently in Filecoin blockchain using a contract in FVM that saves the tree structure of all CIDs of files uploaded to IFPS so you can have an ordered view of your drives.
 
 From there you can preview and download your files, also encrypt and decrypt in your own secure drive so nobody can see what you are storing in EverFile, not even us!
 

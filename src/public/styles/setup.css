@@ -10,6 +10,8 @@ h2.info { font-size: 1.2em; color: var(--color-secondary); }
 
 .action { margin: 100px 0 50px; }
 .actionButton { margin-top: 40px; font-size: 1.2em; }
-
-
 .message { color: var(--color-secondary); }
+
+@media screen and (max-width: 720px) {
+  body { padding: 20px; }
+}

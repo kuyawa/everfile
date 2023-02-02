@@ -113,30 +113,6 @@ async function test(req, res){
   res.render('drive', data)
 }
 
-async function faq(req, res){ 
-  hit(req)
-  let session = utils.getSession(req)
-  res.render('notready', {session})
-}
-
-async function terms(req, res){ 
-  hit(req)
-  let session = utils.getSession(req)
-  res.render('notready', {session})
-}
-
-async function privacy(req, res){ 
-  hit(req)
-  let session = utils.getSession(req)
-  res.render('notready', {session})
-}
-
-async function support(req, res){ 
-  hit(req)
-  let session = utils.getSession(req)
-  res.render('notready', {session})
-}
-
 
 //---- API
 
@@ -233,11 +209,7 @@ async function apiNewFile(req, res){
     else if(mime=='image/gif' ){ dst+='.gif' }
     else if(mime=='image/webp'){ dst+='.webp' }
     else if(mime=='image/svg+xml'){ dst+='.svg' }
-    if(encrypt){
-      fs.unlink(temp)
-    } else {
-      let ok1 = await req.files.file.mv(dst)
-    }
+    let ok1 = await req.files.file.mv(dst)
     // save fileId and cid to db in contract/drive/parent folder
     let ok2 = await db.newFile(rec)
     console.log('OK2',ok2)
@@ -343,10 +315,6 @@ module.exports = {
   setup,
   drive,
   test,
-  faq,
-  terms,
-  privacy,
-  support,
   apiTest,
   apiStorage,
   apiSetup,

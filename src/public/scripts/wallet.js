@@ -83,8 +83,8 @@ class Wallet {
         // OK
       } else {
         this.chainId = cid;
-        console.log('Metamask not connected to FileCoin');
-        if(enable){ alert('Metamask not connected to FileCoin'); }
+        console.log('Metamask not connected to Filecoin');
+        if(enable){ alert('Metamask not connected to Filecoin'); }
       }
     } else {
         console.log('Metamask not available');

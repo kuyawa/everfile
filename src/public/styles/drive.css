@@ -6,7 +6,7 @@ body { display: flex; flex-direction: row; justify-content: space-between; heigh
 .ellipsis { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .listDrives { width: 250px; display: flex; flex-direction: column; justify-content: space-between; padding: 30px; border-right: 1px solid var(--border-primary); background-color: var(--back-secondary); text-align: center; }
-content     { flex-grow: 1; /*width: 63%;*/ padding: 50px; background-color: var(--back-primary); overflow-x: scroll; }
+.main       { flex-grow: 1; padding: 50px; background-color: var(--back-primary); overflow-x: scroll; }
 .panels     { width: 400px; margin: 0; padding: 0; border-right: 1px solid var(--border-primary); background-color: var(--back-secondary); text-align: center; }
 #preview    { width: 100%; padding: 30px; text-align: center;}
 #upload     { width: 100%; padding: 30px; text-align: center; display: none; }
@@ -79,3 +79,21 @@ button:hover { border: 1px solid var(--color-primary); background: var(--back-ac
 input[type=text] { padding: 5px; color: var(--color-primary); background-color: transparent; border: 1px solid var(--border-primary); border-radius: 4px; }
 
 
+@media screen and (max-width: 720px) {
+  body {flex-direction: column; height: auto; }
+  .listDrives { width: 100%; }
+  .drives { text-align: center; }
+  .main { display: block; height: 100%;  padding: 20px; }
+  .panels { width: 100%; }
+  #files th:nth-child(1) { width: 60%; text-align: left;  }
+  #files th:nth-child(2) { display: none; }
+  #files th:nth-child(3) { width: 40%; text-align: right; }
+  #files th:nth-child(4) { display: none; }
+  #files th:nth-child(5) { display: none; }
+  #files td:nth-child(1) { width: 60%; text-align: left;  }
+  #files td:nth-child(2) { display: none; }
+  #files td:nth-child(3) { width: 40%; text-align: right; }
+  #files td:nth-child(4) { display: none; }
+  #files td:nth-child(5) { display: none; }
+
+}

@@ -11,3 +11,7 @@ body { text-align: center; background: var(--back-primary); overscroll-behavior:
 .action { display: inline-block; margin: 50px 0; padding: 10px 30px; text-decoration: none; color: var(--color-primary); font-size: 1.4em; border: 1px solid var(--color-primary); border-radius: 30px; }
 .action:hover { background-color: var(--back-secondary); }
 .actionMini { display: inline-block; margin: 10px 0; padding: 8px 20px; text-decoration: none; color: var(--color-secondary); font-size: 0.8em; border: 1px solid var(--color-secondary); border-radius: 30px; }
+
+@media screen and (max-width: 720px) {
+  body { padding: 20px; }
+}
