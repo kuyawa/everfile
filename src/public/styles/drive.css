@@ -82,6 +82,7 @@ input[type=text] { padding: 5px; color: var(--color-primary); background-color: 
 @media screen and (max-width: 720px) {
   body {flex-direction: column; height: auto; }
   .listDrives { width: 100%; }
+  .list { display: inline-block; }
   .drives { text-align: center; }
   .main { display: block; height: 100%;  padding: 20px; }
   .panels { width: 100%; }
